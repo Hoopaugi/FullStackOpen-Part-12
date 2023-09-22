@@ -1,0 +1,13 @@
+docker exec -it redis-dev bash
+
+redis-cli
+
+KEYS *
+
+GET added_todos
+
+SET added_todos 9001
+
+GET added_todos
+
+GETDEL added_todos
