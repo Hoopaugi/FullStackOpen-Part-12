@@ -1,0 +1,13 @@
+docker run -it ubuntu bash
+
+apt update
+
+apt install -y nodejs
+
+mkdir /usr/src/app
+
+nano /usr/src/app/index.js
+
+node /usr/src/app/index.js
+
+exit
