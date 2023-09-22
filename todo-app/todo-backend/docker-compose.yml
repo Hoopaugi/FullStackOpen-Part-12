@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  todo-app-backend:
+    container_name: todo-app-backend
+    build: ./
+    ports:
+      - 3000:3000
+    restart: unless-stopped
