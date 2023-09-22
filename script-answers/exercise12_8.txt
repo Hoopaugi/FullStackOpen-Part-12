@@ -1,0 +1,9 @@
+docker exec -it mongo-dev bash
+
+mongosh -u root -p secret
+
+use todo-app-dev
+
+db.todos.insertOne({ text: "Increase the number of tools in my toolbelt", done: false })
+
+db.todos.find({})
