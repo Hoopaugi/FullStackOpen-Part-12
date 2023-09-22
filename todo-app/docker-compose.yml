@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  backend-dev:
+    container_name: backend-dev
+    build: services/backend
+    ports:
+    - 5000:5000
+    environment:
+      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-dev:27017/todo-app-dev
+      REDIS_URL: redis://redis-dev:6379
+    depends_on:
+      - mongo-dev
+      - redis-dev
+    restart: unless-stopped
   mongo-dev:
     container_name: mongo-dev
     image: mongo
@@ -19,7 +31,10 @@ services:
     image: redis
     ports:
       - 6379:6379
+    volumes:
+      - redis-data-dev:/data
     restart: unless-stopped
 
 volumes:
   mongo-data-dev:
+  redis-data-dev:
