@@ -6,7 +6,7 @@ apt install -y nodejs
 
 mkdir /usr/src/app
 
-nano /usr/src/app/index.js
+echo 'console.log("Hello, World!")' >> /usr/src/app/index.js
 
 node /usr/src/app/index.js
 
