@@ -11,6 +11,10 @@ const TodoList = ({ todos, deleteTodo, completeTodo }) => {
     completeTodo(todo)
   }
 
+  if (!todos) {
+    return <p>No todos</p>
+  }
+
   return (
     <>
       {todos.map(todo => {

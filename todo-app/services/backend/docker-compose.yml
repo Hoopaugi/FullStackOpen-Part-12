@@ -7,8 +7,8 @@ services:
     ports:
     - 5000:5000
     environment:
-      MONGO_URL: mongodb://root:secret@localhost:27017/todo-app-dev
-      REDIS_URL: redis://localhost:6379
+      MONGO_URL: mongodb://root:secret@mongo-dev:27017/todo-app-dev
+      REDIS_URL: redis://redis-dev:6379
     volumes:
       - ./:/usr/src/app
     restart: unless-stopped

@@ -12,4 +12,4 @@ RUN npm ci
   
 USER node
 
-CMD ["dumb-init", "npm", "run", "start"]
+CMD ["dumb-init", "npm", "run", "start:dev"]

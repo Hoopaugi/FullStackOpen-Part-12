@@ -1,6 +1,29 @@
 version: '3.8'
 
 services:
+  nginx-dev:
+    container_name: nginx-dev
+    image: nginx
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - backend-dev
+      - frontend-dev
+    restart: unless-stopped
+  frontend-dev:
+    container_name: frontend-dev
+    build: ./services/frontend
+    ports:
+    - 3000:3000
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost:8080/api/
+    volumes:
+      - ./services/frontend/:/usr/src/app
+    depends_on:
+      - backend-dev
+    restart: unless-stopped
   backend-dev:
     container_name: backend-dev
     build: services/backend

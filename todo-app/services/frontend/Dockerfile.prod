@@ -1,0 +1,36 @@
+# Dependencies
+FROM node:18-bookworm-slim AS dependencies
+
+RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
+
+# Build
+FROM node:18-bookworm-slim AS build
+
+ENV REACT_APP_BACKEND_URL=/api
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node . .
+
+RUN npm ci
+
+RUN npm run build
+
+# Production
+FROM node:18-bookworm-slim
+
+ENV NODE_ENV production
+
+COPY --from=dependencies /usr/bin/dumb-init /usr/bin/dumb-init
+
+RUN npm install -g serve
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node --from=build /usr/src/app/build /usr/src/app/build
+
+EXPOSE 3000
+
+CMD ["dumb-init", "serve", "-s", "build"]

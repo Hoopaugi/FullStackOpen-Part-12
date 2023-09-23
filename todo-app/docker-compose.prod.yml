@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  nginx-prod:
+    container_name: nginx-prod
+    image: nginx
+    volumes:
+      - ./services/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - backend-prod
+      - frontend-prod
+    restart: unless-stopped
+  frontend-prod:
+    container_name: frontend-prod
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile.prod
+    depends_on:
+      - backend-prod
+    restart: unless-stopped
+  backend-prod:
+    container_name: backend-prod
+    build:
+      context: ./services/backend
+      dockerfile: Dockerfile.prod
+    environment:
+      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-prod:27017/€{MONGO_INITDB_DATABASE}
+      REDIS_URL: redis://redis-prod:6379
+    depends_on:
+      - mongo-prod
+      - redis-prod
+    restart: unless-stopped
+  mongo-prod:
+    container_name: mongo-prod
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: €{MONGO_INITDB_DATABASE}
+    volumes: 
+      - ./services/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - mongo-data-prod:/data/db
+    restart: unless-stopped
+  redis-prod:
+    container_name: redis-prod
+    image: redis
+    volumes:
+      - redis-data-prod:/data
+    restart: unless-stopped
+
+volumes:
+  mongo-data-prod:
+  redis-data-prod:
