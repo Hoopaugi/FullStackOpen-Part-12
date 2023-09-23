@@ -7,11 +7,13 @@ services:
     ports:
     - 5000:5000
     environment:
-      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo-dev:27017/todo-app-dev
+      MONGO_URL: mongodb://root:secret@mongo-dev:27017/todo-app-dev
       REDIS_URL: redis://redis-dev:6379
     depends_on:
       - mongo-dev
       - redis-dev
+    volumes:
+      - ./services/backend/:/usr/src/app
     restart: unless-stopped
   mongo-dev:
     container_name: mongo-dev
