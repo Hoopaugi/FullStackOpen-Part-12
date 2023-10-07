@@ -1,0 +1,4 @@
+Exercises 12.21 and 12.22 covered in https://github.com/Hoopaugi/Movie-Rate-App
+
+Project is in active development, but at the time of this submission the project is fullstack app: an express backend utilizing mongodb as a database, with a vite / react frontend, served via nginx, with development and production environments running on docker.
+
